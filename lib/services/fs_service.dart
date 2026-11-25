@@ -22,6 +22,10 @@ class FsService {
   Future<QuerySnapshot> categorias() {
     return FirebaseFirestore.instance.collection('categorias').orderBy('nombre').get();
   }
+
+  Future<void> borrarObjeto(String id){
+    return FirebaseFirestore.instance.collection('objetos').doc(id).delete();
+  }
 }
 
  
