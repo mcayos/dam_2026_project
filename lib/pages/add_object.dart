@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dam_2026_project/constants.dart';
+import 'package:dam_2026_project/services/fs_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
@@ -66,7 +68,6 @@ class _AddObjectState extends State<AddObject> {
                   )
                 ),
                 Divider(height: 16),
-                
                 TextFormField(
                   maxLines: 3,
                   controller: descripcionCtrl, 
@@ -77,8 +78,7 @@ class _AddObjectState extends State<AddObject> {
                   )
                 ),
                 Divider(height: 16),  
-                Row(children: [
-                  FilledButton(
+                FilledButton(
                     style: FilledButton.styleFrom(
                       backgroundColor: cFondo1,
                       foregroundColor: cTextoClaro,
@@ -99,11 +99,40 @@ class _AddObjectState extends State<AddObject> {
                     child: Text(fechaCtrl == null
                         ? 'Fecha de perdida'
                         : 'Fecha seleccionada: $fechaCtrl'),
-                  ),
-                Expanded(child: VerticalDivider(width: 16))
-                ]
-              )
-            ],
+                ),
+                Divider(height: 16),
+                FutureBuilder(
+                    future: FsService().categorias(),
+                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Text('Cargando categorías...');
+                      }
+                      var categorias = snapshot.data!.docs;
+                      return DropdownButtonFormField(
+                        decoration: InputDecoration(
+                          labelText: categoriaCtrl ?? 'Categoría',
+                          border: OutlineInputBorder(),
+                        ),
+                        items: categorias.map((categoria) {
+                          return DropdownMenuItem(
+                            value: categoria['nombre'].toString(),
+                            child: Text(categoria['nombre']),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            categoriaCtrl = value;
+                          });
+                        },
+                        
+                      );
+                  },
+                ),
+                Divider(height: 16),
+                Row(
+                  
+                )
+              ],
           ),
         )
       )

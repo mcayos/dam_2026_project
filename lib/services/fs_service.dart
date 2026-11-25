@@ -5,9 +5,7 @@ class FsService {
   Stream<QuerySnapshot> objetos() {
     return FirebaseFirestore.instance.collection('objetos').snapshots();
   }
-}
-
- Future<void> agregarObjeto(String titulo, String lugar, String foto, DateTime fecha, String descripcion, String categoria, String autor) {
+  Future<void> agregarObjeto(String titulo, String lugar, String foto, DateTime fecha, String descripcion, String categoria, String autor) {
     return FirebaseFirestore.instance.collection('objetos').doc().set({
       'titulo': titulo,
       'tipo': false,                  // false: perdido, true: encontrado.
@@ -20,3 +18,9 @@ class FsService {
       'autor': autor,
     });
   }
+  Future<QuerySnapshot> categorias() {
+    return FirebaseFirestore.instance.collection('categorias').orderBy('nombre').get();
+  }
+}
+
+ 
