@@ -77,7 +77,6 @@ class _AddObjectState extends State<AddObject> {
                 ),
                 Divider(height: 16),
                 DropdownButtonFormField<bool>(
-                  value: tipo,
                   decoration: InputDecoration(
                     labelText: 'Tipo',
                     border: OutlineInputBorder(),
@@ -161,7 +160,7 @@ class _AddObjectState extends State<AddObject> {
                         firstDate: DateTime(2000),
                         lastDate: DateTime(2100),
                       );
-                      if (fecha == null || !mounted) return;
+                      if (fecha == null || !context.mounted) return;
 
                       final hora = await showTimePicker(
                         context: context,
@@ -278,10 +277,10 @@ class _AddObjectState extends State<AddObject> {
             user?.email ?? 'Anónimo',
           );
 
-          if (!mounted) return;
+          if (!context.mounted) return;
           Navigator.pop(context);
         } on FirebaseException catch (error) {
-          if (!mounted) return;
+          if (!context.mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(

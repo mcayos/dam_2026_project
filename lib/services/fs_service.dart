@@ -26,6 +26,10 @@ class FsService {
   Future<void> borrarObjeto(String id){
     return FirebaseFirestore.instance.collection('objetos').doc(id).delete();
   }
+
+  Future<void> editarEstadoObjeto(String id, bool estado) {
+    return FirebaseFirestore.instance.collection('objetos').doc(id).update({'estado': estado});
+  }
 }
 
  

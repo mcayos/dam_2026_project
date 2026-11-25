@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
           child: Text('Objetos extraviados', style: TextStyle(color: cTextoClaro, fontSize: 20, fontWeight: FontWeight.bold))),
         actions: [
           PopupMenuButton(itemBuilder: (context) => [
-            PopupMenuItem(child: Text('Cerrar Sesion'), value: 'logout'),
+            PopupMenuItem( value: 'logout',child: Text('Cerrar Sesion')),
           ],
           onSelected: (opcion) {
             FirebaseAuth.instance.signOut();
