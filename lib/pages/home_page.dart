@@ -1,5 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dam_2026_project/constants.dart';
+import 'package:dam_2026_project/services/auth_service.dart';
+import 'package:dam_2026_project/services/fs_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -9,16 +14,63 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  User? user;
+
+  @override
+  void initState() {
+    super.initState();
+    AuthService().currentUser().then((currentU) {
+      if (!mounted) return;
+      setState(() {
+        user = currentU;
+      });
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: cFondo1,
-        title: const Text('Extravíos USM'),
+        title:  Center(
+          child: Text('Objetos extraviados', style: TextStyle(color: cTextoClaro, fontSize: 20, fontWeight: FontWeight.bold))),
+        actions: [
+          IconButton(
+            icon: Icon(MdiIcons.logout),
+            onPressed: () {}
+      )]
       ),
-      body: const Center(
-        child: Text('Bienvenido a la página de inicio'),
+      body: StreamBuilder(
+        stream: FsService().objetos(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (!snapshot.hasData ||
+            snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          var objetos = snapshot.data!.docs;
+          return ListView.separated(
+            separatorBuilder: (context, index) => Divider(),
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (context,index){
+              var objeto = objetos[index];
+              return ListTile(
+                leading: Icon(
+                  MdiIcons.packageVariant,
+                  color: Colors.deepOrange,
+                ),
+                title: Text(objeto['titulo']),
+                subtitle: Text(objeto['descripcion']),
+              );
+            },
+        );
+        },
       ),
-    );
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          backgroundColor: cFondo1,
+          child: Icon(MdiIcons.plus, color: cTextoClaro),
+          ),
+      );
   }
 }

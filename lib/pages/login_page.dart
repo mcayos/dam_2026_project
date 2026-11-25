@@ -1,4 +1,3 @@
-import 'package:dam_2026_project/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
@@ -129,23 +128,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-
-// class LoginPage extends StatelessWidget {
-//   const LoginPage({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         backgroundColor: cFondo1,
-//         title: Center(
-//           child: Text(
-//             'LOGO DE USM',
-            
-//           ),
-//         ),
-//       ),
-//       backgroundColor: cFondo2,
-//     );
-//   }
-// }
