@@ -33,17 +33,57 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Padding(padding: EdgeInsetsGeometry.only(left: 8),child: Image.asset('assets/images/logo-usm2.png')),
         backgroundColor: cFondo1,
         title:  Center(
           child: Text('Objetos extraviados', style: TextStyle(color: cTextoClaro, fontSize: 20, fontWeight: FontWeight.bold))),
-        actions: [
-          PopupMenuButton(itemBuilder: (context) => [
-            PopupMenuItem( value: 'logout',child: Text('Cerrar Sesion')),
-          ],
-          onSelected: (opcion) {
-            FirebaseAuth.instance.signOut();
-          },)
-          ]
+      ),
+      // Muestra la cuenta actual y la acción para cerrar sesión.
+      endDrawer: Drawer(
+        child: SafeArea(
+          child: Column(
+            children: [
+              UserAccountsDrawerHeader(
+                accountName: Text(user?.displayName ?? 'Usuario'),
+                accountEmail: Text(user?.email ?? 'Sin correo'),
+                currentAccountPicture: const CircleAvatar(
+                  child: Icon(Icons.person),
+                ),
+                decoration: BoxDecoration(color: cFondo1),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: FilledButton.icon(
+                    style: FilledButton.styleFrom(
+                      backgroundColor: cFondo1,
+                      foregroundColor: cTextoClaro,
+                    ),
+                    icon: const Icon(Icons.logout),
+                    label: const Text('Cerrar sesión'),
+                    onPressed: () async {
+                      try {
+                        await FirebaseAuth.instance.signOut();
+                        if (!context.mounted) return;
+                        Navigator.of(context).pop();
+                      } on FirebaseAuthException catch (error) {
+                        if (!context.mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'No se pudo cerrar sesión: ${error.message ?? error.code}',
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
       body: StreamBuilder(
         stream: FsService().objetos(),
