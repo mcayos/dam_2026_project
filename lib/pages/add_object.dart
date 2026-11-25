@@ -51,7 +51,7 @@ class _AddObjectState extends State<AddObject> {
           },
         ),
         backgroundColor: cFondo1,
-        title:  Text('Publicando objeto extraviado', style: TextStyle(color: cTextoClaro, fontSize: 20, fontWeight: FontWeight.bold)),
+        title:  Text('Publicar objeto', style: TextStyle(color: cTextoClaro, fontSize: 20, fontWeight: FontWeight.bold)),
 
       ),
       body: Container(

@@ -37,10 +37,13 @@ class _HomePageState extends State<HomePage> {
         title:  Center(
           child: Text('Objetos extraviados', style: TextStyle(color: cTextoClaro, fontSize: 20, fontWeight: FontWeight.bold))),
         actions: [
-          IconButton(
-            icon: Icon(MdiIcons.logout),
-            onPressed: () {}
-      )]
+          PopupMenuButton(itemBuilder: (context) => [
+            PopupMenuItem(child: Text('Cerrar Sesion'), value: 'logout'),
+          ],
+          onSelected: (opcion) {
+            FirebaseAuth.instance.signOut();
+          },)
+          ]
       ),
       body: StreamBuilder(
         stream: FsService().objetos(),
