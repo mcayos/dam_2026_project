@@ -56,10 +56,34 @@ class _HomePageState extends State<HomePage> {
             itemBuilder: (context,index){
               var objeto = objetos[index];
               return ListTile(
-                leading: Image.network(objeto['foto']),
+                leading: Container(
+                  width: 64,
+                  height: 128,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16)
+                  ),
+                  child: Image.network(
+                    objeto['foto'],
+                    fit: BoxFit.fill),
+                ),
                 title: Text(objeto['titulo']),
-                subtitle: Row(children: [Text('Objeto perdido en: '), Text(objeto['lugar'])],),
-                trailing: Text(objeto['autor']),
+                subtitle: Row(children: [
+                  Text('EST: '),Text(objeto['tipo'] == true ? 'Encontrado' : 'Perdido'),Text(' | CAT: '), Text(objeto['categoria'])],),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.circle,
+                      color: objeto['estado'] == true
+                          ? Colors.green
+                          : Colors.red,
+                    ),
+                    SizedBox(width: 8),
+                    Text(
+                      objeto['estado'] == true ? 'Devuelto' : 'Vigente',
+                    ),
+                  ],
+                ),
               );
             },
         );
