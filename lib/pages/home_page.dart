@@ -56,12 +56,10 @@ class _HomePageState extends State<HomePage> {
             itemBuilder: (context,index){
               var objeto = objetos[index];
               return ListTile(
-                leading: Icon(
-                  MdiIcons.packageVariant,
-                  color: Colors.deepOrange,
-                ),
+                leading: Image.network(objeto['foto']),
                 title: Text(objeto['titulo']),
-                subtitle: Text(objeto['descripcion']),
+                subtitle: Row(children: [Text('Objeto perdido en: '), Text(objeto['lugar'])],),
+                trailing: Text(objeto['autor']),
               );
             },
         );
