@@ -157,15 +157,30 @@ class _AddObjectState extends State<AddObject> {
                     onPressed: () async {
                       DateTime? fecha = await showDatePicker(
                         context: context,
-                        initialDate: DateTime.now(),
+                        initialDate: fechaCtrl ?? DateTime.now(),
                         firstDate: DateTime(2000),
                         lastDate: DateTime(2100),
                       );
-                      if (fecha != null) {
-                        setState(() {
-                          fechaCtrl = fecha;
-                        });
-                      }
+                      if (fecha == null || !mounted) return;
+
+                      final hora = await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.fromDateTime(
+                          fechaCtrl ?? DateTime.now(),
+                        ),
+                      );
+                      if (hora == null || !mounted) return;
+
+                      setState(() {
+                        // Combina la fecha y hora elegidas en un solo DateTime.
+                        fechaCtrl = DateTime(
+                          fecha.year,
+                          fecha.month,
+                          fecha.day,
+                          hora.hour,
+                          hora.minute,
+                        );
+                      });
                     },
                     child: Text(fechaCtrl == null
                         ? 'Fecha de perdida'
