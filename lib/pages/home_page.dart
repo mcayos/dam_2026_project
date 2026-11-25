@@ -67,8 +67,11 @@ class _HomePageState extends State<HomePage> {
                     fit: BoxFit.fill),
                 ),
                 title: Text(objeto['titulo']),
-                subtitle: Row(children: [
-                  Text('EST: '),Text(objeto['tipo'] == true ? 'Encontrado' : 'Perdido'),Text(' | CAT: '), Text(objeto['categoria'])],),
+                subtitle: Text(
+                  'Obj. de ${objeto['categoria']}${objeto['tipo'] == true ? ' ENCONTRADO' : ' Perdido'}',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -77,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                       color: objeto['estado'] == true
                           ? Colors.green
                           : Colors.red,
-                    ),
+                    ),  
                     SizedBox(width: 8),
                     Text(
                       objeto['estado'] == true ? 'Devuelto' : 'Vigente',

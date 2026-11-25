@@ -19,6 +19,7 @@ class _AddObjectState extends State<AddObject> {
   TextEditingController tituloCtrl = TextEditingController(); 
   TextEditingController descripcionCtrl = TextEditingController();
   // tipo por defecto en perdido.
+  bool tipo = false;
   String? categoriaCtrl;
   TextEditingController lugarCtrl = TextEditingController();
   DateTime? fechaCtrl;
@@ -74,7 +75,30 @@ class _AddObjectState extends State<AddObject> {
                     border: OutlineInputBorder(),
                   )
                 ),
-                
+                Divider(height: 16),
+                DropdownButtonFormField<bool>(
+                  value: tipo,
+                  decoration: InputDecoration(
+                    labelText: 'Tipo',
+                    border: OutlineInputBorder(),
+                  ),
+                  items: const [
+                    DropdownMenuItem<bool>(
+                      value: false,
+                      child: Text('Perdido'),
+                    ),
+                    DropdownMenuItem<bool>(
+                      value: true,
+                      child: Text('Encontrado'),
+                    ),
+                  ],
+                  onChanged: (value) {
+                    if (value == null) return;
+                    setState(() {
+                      tipo = value;
+                    });
+                  },
+                ),
                 Divider(height: 16),
                 FutureBuilder(
                     future: categoriasFuture,
@@ -167,7 +191,7 @@ class _AddObjectState extends State<AddObject> {
                       },
                     ),
                     IconButton(
-                      icon: Icon(MdiIcons.microsoftInternetExplorer),
+                      icon: Icon(MdiIcons.web),
                       onPressed: () {
                         showDialog(
                           context: context,
@@ -230,6 +254,7 @@ class _AddObjectState extends State<AddObject> {
         try {
           await FsService().agregarObjeto(
             tituloCtrl.text,
+            tipo,
             lugarCtrl.text,
             fotoCtrl.text,
             fecha,
@@ -237,6 +262,7 @@ class _AddObjectState extends State<AddObject> {
             categoria,
             user?.email ?? 'Anónimo',
           );
+
           if (!mounted) return;
           Navigator.pop(context);
         } on FirebaseException catch (error) {
@@ -250,6 +276,8 @@ class _AddObjectState extends State<AddObject> {
           );
         }
       },
+      backgroundColor: cFondo1,
+      child: Icon(MdiIcons.cloudArrowUpOutline, color: cTextoClaro)
     ),
     );
   }
