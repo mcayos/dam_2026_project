@@ -5,6 +5,7 @@ class FsService {
   Stream<QuerySnapshot> objetos() {
     return FirebaseFirestore.instance.collection('objetos').snapshots();
   }
+  
   Future<void> agregarObjeto(String titulo, String lugar, String foto, DateTime fecha, String descripcion, String categoria, String autor) {
     return FirebaseFirestore.instance.collection('objetos').doc().set({
       'titulo': titulo,
