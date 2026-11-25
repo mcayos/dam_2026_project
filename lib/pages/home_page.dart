@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dam_2026_project/constants.dart';
 import 'package:dam_2026_project/pages/add_object.dart';
+import 'package:dam_2026_project/pages/details_object.dart';
 import 'package:dam_2026_project/services/auth_service.dart';
 import 'package:dam_2026_project/services/fs_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -56,6 +57,15 @@ class _HomePageState extends State<HomePage> {
             itemBuilder: (context,index){
               var objeto = objetos[index];
               return ListTile(
+                // Abre los detalles usando el documento seleccionado.
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => DetailsObject(objeto: objeto),
+                    ),
+                  );
+                },
                 leading: Container(
                   width: 64,
                   height: 128,
@@ -72,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                trailing: Row(
+                trailing: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
