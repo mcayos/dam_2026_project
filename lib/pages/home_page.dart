@@ -157,3 +157,7 @@ class _HomePageState extends State<HomePage> {
       );
   }
 }
+
+//To Do:
+//Autenticacion con Google.
+//Conexion al Storage de Firebase para fotos. (me pide suscripcion??)
