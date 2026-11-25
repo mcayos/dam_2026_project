@@ -21,8 +21,7 @@ class _AddObjectState extends State<AddObject> {
           },
         ),
         backgroundColor: cFondo1,
-        title:  Center(
-          child: Text('Añadir Objeto', style: TextStyle(color: cTextoClaro, fontSize: 20, fontWeight: FontWeight.bold))),
+        title:  Text('Publicando objeto extraviado', style: TextStyle(color: cTextoClaro, fontSize: 20, fontWeight: FontWeight.bold)),
       ),
       );
   }

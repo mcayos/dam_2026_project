@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dam_2026_project/constants.dart';
+import 'package:dam_2026_project/pages/add_object.dart';
 import 'package:dam_2026_project/services/auth_service.dart';
 import 'package:dam_2026_project/services/fs_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -67,7 +68,11 @@ class _HomePageState extends State<HomePage> {
         },
       ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            MaterialPageRoute ruta = MaterialPageRoute(
+              builder: (context) => AddObject());
+            Navigator.push(context, ruta);
+          },
           backgroundColor: cFondo1,
           child: Icon(MdiIcons.plus, color: cTextoClaro),
           ),
